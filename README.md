@@ -17,7 +17,7 @@ Here we will see how to persist Jenkins data with .tar on a containerized jenkin
 
 in our case `/var/jenkins_home`:
 
-  docker run --cidfile=id.tmp --volumes-from <container_id> ubuntu tar -cO /var/jenkins_home | gzip -c > volume.tgz
+    docker run --cidfile=id.tmp --volumes-from <container_id> ubuntu tar -cO /var/jenkins_home | gzip -c > volume.tgz
 
 ![](https://github.com/nokorinotsubasa/tar-jenkins-docker/blob/131136d52a2b0dfd5ffa2cdeaa8dbcb00dd3772a/images/tarcommand.png)
 
@@ -35,7 +35,7 @@ in our case `/var/jenkins_home`:
 
 To do this, with azure cli installed, run:
 
-  az storage blob upload --account-name storage-account-name --container-name container-name --name volume.tgz --file volume.tgz --auth-mode key
+    az storage blob upload --account-name storage-account-name --container-name container-name --name volume.tgz --file volume.tgz --auth-mode key
 
 >`you can also use --auth-mode login if you will`
 
@@ -43,31 +43,31 @@ To do this, with azure cli installed, run:
 
 pull the Jenkins docker image:
 
-  docker pull jenkins/jenkins
+    docker pull jenkins/jenkins
 
 >`this will pull the latest jenkins docker image`
 
 Run the docker image:
 
-  docker run --name jenkins -p 8080:8080 -p 50000:50000 -d -v jenkins_home:/var/jenkins_home jenkins/jenkins
+    docker run --name jenkins -p 8080:8080 -p 50000:50000 -d -v jenkins_home:/var/jenkins_home jenkins/jenkins
 
 >`this will run a container named jenkins, based on jenkins/jenkins image, on detached mode, with ports 8080 and 50000 open. Also, we are defining the volume, this volume will be where the jenkins data will be stored.`
 
 Access the container on root:
 
-  docker exec -u 0 -it <container_id> bash
+    docker exec -u 0 -it <container_id> bash
 
 - With azure cli installed:
 
 download the tar file with:
 
-  az storage blob download --account-name storage-account-name --container-name container-name --name volume.tgz --file volume.tgz --auth-mode key
+    az storage blob download --account-name storage-account-name --container-name container-name --name volume.tgz --file volume.tgz --auth-mode key
 
 >`you can also use --auth-mode login if you will`
 
 Now, extract it:
 
-  tar -xzvf volume.tgz
+    tar -xzvf volume.tgz
 
 ![](https://github.com/nokorinotsubasa/tar-jenkins-docker/blob/cd00d664ae4d7a6d2af87b3c41689126076d0262/images/extractfile.png)
 
@@ -77,7 +77,7 @@ Now, extract it:
 
 Restart the container:
 
-  docker restart <container_id>
+    docker restart <container_id>
 
 ## Final Result
 
